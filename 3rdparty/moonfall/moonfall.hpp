@@ -41,31 +41,66 @@ struct unqualified_pusher<const char*> {
 };
 }
 
-namespace moonfall {
-class registry_reference {
-public:
-  registry_reference() noexcept = default;
+namespace moonfall::reference {
 
-  registry_reference(lua_State* state, const registry_reference& other) noexcept {
-    if (state == nullptr || other.index == LUA_REFNIL || other.index == LUA_REFNIL) {
-      index = state == nullptr ? LUA_NOREF : other.index;
+struct raw_index {
+  raw_index(int index): index(index) {}
+  operator int() const { return index; }
+  int index;
+};
+
+struct upvalue_index {
+  upvalue_index(int index): index(lua_upvalueindex(index)) {}
+  operator int() const { return index; }
+  int index;
+};
+
+struct absolute_index {
+  absolute_index(lua_State* state, int index): index(lua_absindex(state, index)) {}
+  operator int() const { return index; }
+  int index;
+};
+
+inline bool xmovable(lua_State* left, lua_State* right) {
+  return left == nullptr || right == nullptr || left == right ?
+         false : lua_topointer(left, LUA_REGISTRYINDEX) == lua_topointer(right, LUA_REGISTRYINDEX);
+}
+
+class stack_reference {
+public:
+  stack_reference() noexcept = default;
+  stack_reference(raw_index index) noexcept: index(index) {}
+  stack_reference(absolute_index index) noexcept: index(index) {}
+  stack_reference(lua_State* state, raw_index index) noexcept: state(state), index(index) {}
+  stack_reference(lua_State* state, absolute_index index) noexcept: state(state), index(index) {}
+  stack_reference(lua_State* state, int index) noexcept: state(state), index(absolute_index(state, index)) {}
+
+  stack_reference(lua_State* state, const stack_reference& other) noexcept: state(state) {
+    if (!other.is_valid()) {
+      index = 0;
+      return;
+    }
+    if (xmovable(state, other.lua_state())) {
+      lua_pushvalue(other.lua_state(), other.stack_index());
+      lua_xmove(other.lua_state(), state, 1);
+      index = absolute_index(state, -1);
+    } else {
+      index = other.stack_index();
     }
   }
 
 public:
-  int push(lua_State* state) const noexcept {
-    lua_rawgeti(state, LUA_REGISTRYINDEX, index);
-    return 1;
-  }
+  int stack_index() const noexcept { return index; }
+  lua_State* lua_state() const noexcept { return state; }
 
-  int copy(lua_State* state) const noexcept {
-    if (index == LUA_NOREF) return LUA_NOREF;
-    push(state);
-    return luaL_ref(state, LUA_REGISTRYINDEX);
+  bool is_valid() const noexcept {
+    return true;
   }
 
 private:
-  int index = LUA_NOREF;
+  lua_State* state = nullptr;
+
+  int index = 0;
 };
 }
 
