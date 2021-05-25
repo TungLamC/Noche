@@ -90,11 +90,27 @@ public:
   }
 
 public:
-  int stack_index() const noexcept { return index; }
-  lua_State* lua_state() const noexcept { return state; }
+  int push(lua_State* state = nullptr) const noexcept {
+    state = state == nullptr ? this->state : state;
+    lua_pushvalue(state, index);
+    return 1;
+  }
+
+public:
+  int stack_index() const noexcept {
+    return index;
+  }
+
+  lua_State* lua_state() const noexcept {
+    return state;
+  }
 
   bool is_valid() const noexcept {
     return true;
+  }
+
+  const void* pointer() const noexcept {
+    return lua_topointer(state, index);
   }
 
 private:

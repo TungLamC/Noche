@@ -152,7 +152,7 @@ namespace sol {
 				return;
 			}
 			int i = r.stack_index();
-			if (detail::xmovable(lua_state(), r.lua_state())) {int stack_index() const noexcept { return index; }
+			if (detail::xmovable(lua_state(), r.lua_state())) {
 #if SOL_IS_ON(SOL_SAFE_STACK_CHECK_I_)
 				luaL_checkstack(L, 1, "not enough Lua stack space to push a single reference value");
 #endif // make sure stack doesn't overflow
