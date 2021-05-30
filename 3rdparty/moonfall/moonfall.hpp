@@ -41,6 +41,13 @@ public:
   stack_reference(stack_reference&& other) noexcept = default;
   stack_reference& operator=(stack_reference&& other) noexcept = default;
 
+public:
+  int push() const noexcept {
+    
+  }
+  
+ 
+
 private:
   lua_State* state = nullptr;
 
