@@ -91,7 +91,7 @@ public:
 
 public:
   lua_type lua_type() const noexcept {
-    return static_cast<moonfall::lua_type>(::lua_type(state, index));
+    return lua_type_at(state, index);
   }
 
   lua_State* lua_state() const noexcept {
@@ -103,7 +103,7 @@ public:
   }
 
   bool is_valid() const noexcept {
-    return lua_type() != lua_type::lua_nil && lua_type() != lua_type::none;
+    return lua_type() != lua_type::nil && lua_type() != lua_type::none;
   }
 
   const void* pointer() const noexcept {
