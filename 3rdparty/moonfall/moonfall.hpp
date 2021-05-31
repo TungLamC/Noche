@@ -8,10 +8,12 @@ extern "C"
 #include <lauxlib.h>
 }
 
+#include <type_traits>
+
 namespace moonfall {
 enum class lua_type: int {
   none          = LUA_TNONE,
-  lua_nil       = LUA_TNIL,
+  nil           = LUA_TNIL,
   string        = LUA_TSTRING,
   number        = LUA_TNUMBER,
   thread        = LUA_TTHREAD,
@@ -22,7 +24,31 @@ enum class lua_type: int {
   table         = LUA_TTABLE,
   poly          = -0xFFFF
 };
+
+inline lua_type lua_type_at(lua_State* state, int index = -1) {
+  return static_cast<moonfall::lua_type>(::lua_type(state, index));
 }
+
+}
+
+namespace moonfall::traits {
+template<typename T>
+using unqualified_t = std::remove_cv_t<std::remove_reference_t<T>>;
+}
+
+namespace moonfall::stack {
+
+template<typename T>
+struct unqualified_pusher;
+
+template<typename T, typename... Args>
+int push(lua_State* state, T&& t, Args&& ... args) {
+  using UNQUALIFIED_T = traits::unqualified_t<T>;
+  return unqualified_pusher<UNQUALIFIED_T>::push(state, std::forward<T>(t), std::forward<Args>(args)...);
+}
+
+}
+
 namespace moonfall {
 
 inline bool xmovable(lua_State* left, lua_State* right) {
@@ -67,15 +93,15 @@ public:
   lua_type lua_type() const noexcept {
     return static_cast<moonfall::lua_type>(::lua_type(state, index));
   }
-  
+
   lua_State* lua_state() const noexcept {
     return state;
   }
-  
+
   int stack_index() const noexcept {
     return index;
   }
-  
+
   bool is_valid() const noexcept {
     return lua_type() != lua_type::lua_nil && lua_type() != lua_type::none;
   }
@@ -100,6 +126,16 @@ inline bool operator==(const stack_reference& lhs, const stack_reference& rhs) {
 inline bool operator!=(const stack_reference& lhs, const stack_reference& rhs) {
   return !operator==(lhs, rhs);
 }
+
+template<bool only_main_thread = false>
+class registry_reference {
+public:
+
+private:
+  lua_State* state = nullptr;
+
+  int index = LUA_NOREF;
+};
 }
 
 #endif //NOCHE_MOONFALL_HPP
