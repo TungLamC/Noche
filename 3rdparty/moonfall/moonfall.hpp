@@ -1,6 +1,8 @@
 #ifndef NOCHE_MOONFALL_HPP
 #define NOCHE_MOONFALL_HPP
 
+#include <debug/log.h>
+
 extern "C"
 {
 #include <lua.h>
@@ -9,6 +11,7 @@ extern "C"
 }
 
 #include <type_traits>
+#include <functional>
 
 namespace moonfall {
 enum class lua_type: int {
@@ -25,10 +28,23 @@ enum class lua_type: int {
   poly          = -0xFFFF
 };
 
+enum class lua_kind: int {
+  none          = LUA_TNONE,
+  nil           = LUA_TNIL,
+  string        = LUA_TSTRING,
+  number        = LUA_TNUMBER,
+  thread        = LUA_TTHREAD,
+  boolean       = LUA_TBOOLEAN,
+  function      = LUA_TFUNCTION,
+  userdata      = LUA_TUSERDATA,
+  lightuserdata = LUA_TLIGHTUSERDATA,
+  table         = LUA_TTABLE,
+  poly          = -0xFFFF 
+};
+
 inline lua_type lua_type_at(lua_State* state, int index = -1) {
   return static_cast<moonfall::lua_type>(::lua_type(state, index));
 }
-
 }
 
 namespace moonfall::traits {
@@ -37,6 +53,14 @@ using unqualified_t = std::remove_cv_t<std::remove_reference_t<T>>;
 }
 
 namespace moonfall::stack {
+
+template<typename T, lua_kind expected_kind>
+class unqualified_checker {
+  using check_fail_callback = std::function<int(lua_State*, int, lua_kind, lua_kind, const char*)>;
+
+  static bool check(lua_State* state, int index, check_fail_callback&& fail_callback) {
+  }
+};
 
 template<typename T>
 struct unqualified_pusher;

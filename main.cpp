@@ -1,6 +1,7 @@
 #include <iostream>
 #include <moonfall/moonfall.hpp>
 #include <sol/sol.hpp>
+#include <debug/log.h>
 
 struct test
 {
@@ -19,8 +20,11 @@ public:
   }
 };
 
+using namespace noche;
+
 int main()
 {
+  log::info("{} fuck", 1l);
   sol::state state;
   state.open_libraries();
   state.do_string("print('fuck')");
