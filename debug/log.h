@@ -3,8 +3,6 @@
 
 #include <spdlog/spdlog.h>
 
-#include <memory>
-
 namespace noche
 {
 class log
