@@ -6,15 +6,14 @@
 #include <memory>
 #include <tuple>
 
-namespace noche
+namespace Noche
 {
-class asset_manager
+class AssetManager
 {
 public:
   template<typename T>
-  static std::shared_ptr<T> load(const char* path);
+  static std::shared_ptr<T> Load(const char* path);
 };
-
 }
 
 #endif //NOCHE_ASSET_MANAGER_H

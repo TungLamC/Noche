@@ -3,7 +3,7 @@
 
 namespace noche
 {
-class object
+class Object
 {
 public:
   virtual void serialize() = 0;

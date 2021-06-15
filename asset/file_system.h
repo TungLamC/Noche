@@ -3,15 +3,12 @@
 
 #include <io.h>
 
-namespace noche
+namespace Noche
 {
-class file_system
+class FileSystem
 {
 public:
-  static bool exists_file(const std::string& path)
-  {
-    
-  }
+  static bool Exists(const char* path);
 };
 }
 

@@ -1,9 +1,10 @@
 #include <asset/asset_manager.h>
 
-namespace noche
+namespace Noche
 {
 template<typename T>
-std::shared_ptr<T> asset_manager::load(const char* path)
+std::shared_ptr<T> AssetManager::Load(const char* path)
 {
+  return nullptr;
 }
 }

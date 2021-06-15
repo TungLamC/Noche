@@ -5,9 +5,9 @@
 
 #include <vector>
 
-namespace noche
+namespace Noche
 {
-class asset
+class Asset
 {
 public:
 

@@ -1,5 +1,11 @@
 #include <iostream>
+#include <fstream>
+#include <asset/file_system.h>
+#include <debug/log.h>
 #include <sol/sol.hpp>
+#include <filesystem>
+
+using namespace std::filesystem;
 
 
 struct test
@@ -19,8 +25,13 @@ public:
   }
 };
 
+using namespace Noche;
+
 int main()
 {
+  path p("");
+  bool result = FileSystem::Exists(R"(C:/Users/TungLam/Downloads)");
+  Log::Info("{}", result);
   sol::state state;
   state.open_libraries();
   state.new_usertype<test2>("test2");
