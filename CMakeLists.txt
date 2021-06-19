@@ -6,7 +6,9 @@ set(CMAKE_CXX_STANDARD 17)
 include_directories(.)
 
 aux_source_directory(debug debug)
-aux_source_directory(asset asset)
+aux_source_directory(io io)
+aux_source_directory(reflection reflection)
+aux_source_directory(3rdparty/tref tref)
 
 # 3rdparty
 include_directories(3rdparty)
@@ -19,8 +21,12 @@ add_subdirectory(3rdparty/lua54)
 # sol2
 #include_directories(3rdparty/sol2/single/single/include)
 add_subdirectory(3rdparty/sol2)
+# yaml-cpp
+include_directories(3rdparty/yaml-cpp/include)
+add_subdirectory(3rdparty/yaml-cpp)
 
-add_executable(noche main.cpp ${debug} ${asset})
+add_executable(noche main.cpp ${debug} ${io} ${reflection} ${tref})
 target_link_libraries(noche spdlog)
 target_link_libraries(noche lua54)
 target_link_libraries(noche sol2)
+target_link_libraries(noche yaml-cpp)
