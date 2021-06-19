@@ -1,10 +1,17 @@
 #ifndef NOCHE_YAML_SERIALIZER_H
 #define NOCHE_YAML_SERIALIZER_H
 
-namespace Noche
+#include <string>
+#include <yaml-cpp/yaml.h>
+
+namespace noche
 {
-class YamlSerializer
+using yaml_node = YAML::Node;
+
+class yaml_serializer
 {
+  template<typename T>
+  yaml_node serialize(T&& object);
 };
 }
 
