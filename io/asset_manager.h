@@ -1,7 +1,7 @@
 #ifndef NOCHE_ASSET_MANAGER_H
 #define NOCHE_ASSET_MANAGER_H
 
-#include <asset/asset.h>
+#include <io/asset.h>
 #include <string>
 #include <memory>
 #include <tuple>

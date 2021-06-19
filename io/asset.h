@@ -1,7 +1,7 @@
 #ifndef NOCHE_ASSET_H
 #define NOCHE_ASSET_H
 
-#include <core/type_alias.h>
+#include <common/type_alias.h>
 
 #include <vector>
 
