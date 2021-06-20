@@ -3,6 +3,7 @@
 
 #include <spdlog/spdlog.h>
 #include <spdlog/fmt/ostr.h>
+#include <io/asset_manager.h>
 
 namespace Noche
 {
@@ -12,6 +13,7 @@ public:
   template<typename... Args>
   static void Trace(const char* format, const Args&... args)
   {
+    AssetManager::Load<int>("");
     logger.spdlogger->trace(format, args...);
   }
 

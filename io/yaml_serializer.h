@@ -4,15 +4,22 @@
 #include <string>
 #include <yaml-cpp/yaml.h>
 
-namespace noche
+namespace Noche
 {
-using yaml_node = YAML::Node;
+using YamlNode = YAML::Node;
 
-class yaml_serializer
+class YamlSerializer
 {
   template<typename T>
-  yaml_node serialize(T&& object);
+  YamlNode Serialize(T&& object);
 };
+
+template<typename T>
+YamlNode YamlSerializer::Serialize(T&& object)
+{
+  return Noche::YamlNode();
+}
+
 }
 
 #endif //NOCHE_YAML_SERIALIZER_H

@@ -6,13 +6,10 @@
 #include <sstream>
 #include <spdlog/fmt/ostr.h>
 #include <yaml-cpp/yaml.h>
+#include <map>
+#include <io/asset_manager.h>
 
 using namespace tref;
-template <typename Container>
-struct is_container : std::false_type { };
-
-template <typename... Ts> struct is_container<std::list<Ts...> > : std::true_type { };
-template <typename... Ts> struct is_container<std::vector<Ts...> > : std::true_type { };
 
 struct a
 {
@@ -26,7 +23,7 @@ struct b
 {
   TrefType (b);
   
-  b(): k{}, aaa{}, v{1, 2, 3} { }
+  b(): k{}, aaa{}, v{1, 2, 3}, s{"hahahah"}, m { {"fuck", 2}, {"nihao", 2} } { }
 
   float k = 30;
   TrefField (k);
@@ -36,6 +33,12 @@ struct b
   
   std::vector<int> v;
   TrefField(v);
+  
+  std::string s;
+  TrefField(s);
+  
+  std::map<std::string, float> m;
+  TrefField(m);
 };
 
 using yaml_node = YAML::Node;
@@ -47,10 +50,6 @@ yaml_node serialize(T target)
   class_info<T>().each_field([&](auto field, int level) {
     if constexpr (is_reflected_v<typename decltype(field)::member_t>)
       node[std::string(field.name).c_str()] = serialize(target.*(field.value));
-    else if constexpr (is_container<typename decltype(field)::member_t>::value)
-    {
-      node[std::string(field.name).c_str()] = target.*(field.value);
-    }
     else
       node[std::string(field.name).c_str()] = target.*(field.value);
     return true;
@@ -58,13 +57,12 @@ yaml_node serialize(T target)
   return node;
 }
 
+using namespace Noche;
+
 int main()
 {
   b bb;
-  yaml_node node = serialize(bb);
   std::stringstream stream;
-  stream << node;
   std::string s = stream.str();
-  Noche::Log::Info("{}", node);
   return 0;
 }

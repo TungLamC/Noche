@@ -8,7 +8,6 @@ include_directories(.)
 aux_source_directory(debug debug)
 aux_source_directory(io io)
 aux_source_directory(reflection reflection)
-aux_source_directory(3rdparty/tref tref)
 
 # 3rdparty
 include_directories(3rdparty)
@@ -25,7 +24,7 @@ add_subdirectory(3rdparty/sol2)
 include_directories(3rdparty/yaml-cpp/include)
 add_subdirectory(3rdparty/yaml-cpp)
 
-add_executable(noche main.cpp ${debug} ${io} ${reflection} ${tref})
+add_executable(noche main.cpp ${debug} ${io})
 target_link_libraries(noche spdlog)
 target_link_libraries(noche lua54)
 target_link_libraries(noche sol2)
