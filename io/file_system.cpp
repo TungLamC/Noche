@@ -2,9 +2,9 @@
 #include <io.h>
 
 
-namespace Noche
+namespace lam
 {
-bool FileSystem::Exists(const char* path)
+bool file_system::exists(const char* path)
 {
   return true;
 }

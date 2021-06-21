@@ -1,68 +1,64 @@
 #include <debug/log.h>
 #include <iostream>
 #include <tref/Tref.hpp>
-#include <type_traits>
-#include <vector>
-#include <sstream>
-#include <spdlog/fmt/ostr.h>
-#include <yaml-cpp/yaml.h>
-#include <map>
-#include <io/asset_manager.h>
+#include <core/meta.h>
 
-using namespace tref;
+using namespace lam;
 
-struct a
+//struct Fuck
+//{
+//private:
+//  using __base_t = typename tref::imp::get_parent<Fuck>::type;
+//private:
+//  using self_t = Fuck;
+//public:
+//  using __parent_t = self_t;
+//  friend constexpr auto _tref_class_info(Fuck**)
+//  {
+//    return tref::imp::ClassInfo{(Fuck*)0, "Fuck", sizeof(Fuck), tref::imp::Type<__base_t>{}, nullptr};
+//  };;
+//
+//  int i;
+//
+//  friend constexpr auto _tref_state(self_t**, tref::imp::FieldTag, 
+//    tref::imp::Id<std::tuple_element_t<0, decltype(_tref_state((self_t**)0, tref::imp::FieldTag{}, tref::imp::Id<>{}))>::value + 1> id) ->
+//  decltype(std::tuple(id, tref::imp::FieldInfo{id.value, "i", &self_t::i, nullptr}))
+//  {
+//    return std::tuple(id, tref::imp::FieldInfo{id.value, "i", &self_t::i, nullptr});
+//  }
+//};
+//
+//constexpr auto _tref_state(typename tref::imp::get_parent<Fuck>::type**, tref::imp::SubclassTag, tref::imp::Id<
+//  std::tuple_element_t<0,
+//                       decltype(_tref_state((typename tref::imp::get_parent<Fuck>::type**)0, tref::imp::SubclassTag{},
+//                                            tref::imp::Id<>{}))>::value + 1> id) -> decltype(std::tuple(id,
+//                                                                                                        tref::imp::Type<
+//                                                                                                          Fuck>{}))
+//{
+//  return std::tuple(id, tref::imp::Type<Fuck>{});
+//}
+//
+//struct Fuck2: Fuck
+//{
+//  TrefType(Fuck2);
+//};
+//constexpr auto _tref_state(typename tref::imp::get_parent<Fuck2>::type**, tref::imp::SubclassTag, tref::imp::Id<
+//  std::tuple_element_t<0,
+//                       decltype(_tref_state((typename tref::imp::get_parent<Fuck2>::type**)0, tref::imp::SubclassTag{},
+//                                            tref::imp::Id<>{}))>::value + 1> id) -> decltype(std::tuple(id,
+//                                                                                                        tref::imp::Type<
+//                                                                                                          Fuck2>{}))
+//{
+//return std::tuple(id, tref::imp::Type<Fuck2>{});
+//}
+
+template<typename F>
+void fuck(F&& f)
 {
-  TrefType (a);
-
-  int i = 1;
-  TrefField (i);
-};
-
-struct b
-{
-  TrefType (b);
-  
-  b(): k{}, aaa{}, v{1, 2, 3}, s{"hahahah"}, m { {"fuck", 2}, {"nihao", 2} } { }
-
-  float k = 30;
-  TrefField (k);
-
-  a aaa;
-  TrefField (aaa);
-  
-  std::vector<int> v;
-  TrefField(v);
-  
-  std::string s;
-  TrefField(s);
-  
-  std::map<std::string, float> m;
-  TrefField(m);
-};
-
-using yaml_node = YAML::Node;
-
-template<typename T>
-yaml_node serialize(T target)
-{
-  yaml_node node;
-  class_info<T>().each_field([&](auto field, int level) {
-    if constexpr (is_reflected_v<typename decltype(field)::member_t>)
-      node[std::string(field.name).c_str()] = serialize(target.*(field.value));
-    else
-      node[std::string(field.name).c_str()] = target.*(field.value);
-    return true;
-  });
-  return node;
 }
-
-using namespace Noche;
 
 int main()
 {
-  b bb;
-  std::stringstream stream;
-  std::string s = stream.str();
+  int i = 2;
   return 0;
 }

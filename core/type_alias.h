@@ -3,7 +3,7 @@
 
 #include <cstdint>
 
-namespace Noche
+namespace lam
 {
 using byte = unsigned char;
 using int8_t = std::int8_t;

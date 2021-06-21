@@ -5,16 +5,16 @@
 #include <io.h>
 
 
-namespace Noche
+namespace lam
 {
 using namespace std::filesystem;
 
-using Path = std::filesystem::path;
+using path = std::filesystem::path;
 
-class FileSystem
+class file_system
 {
 public:
-  static bool Exists(const char* path);
+  static bool exists(const char* path);
 };
 }
 

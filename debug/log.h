@@ -5,53 +5,52 @@
 #include <spdlog/fmt/ostr.h>
 #include <io/asset_manager.h>
 
-namespace Noche
+namespace lam
 {
-class Log
+class log
 {
 public:
   template<typename... Args>
-  static void Trace(const char* format, const Args&... args)
+  static void trace(const char* format, const Args&... args)
   {
-    AssetManager::Load<int>("");
     logger.spdlogger->trace(format, args...);
   }
 
   template<typename... Args>
-  static void Debug(const char* format, const Args&... args)
+  static void debug(const char* format, const Args&... args)
   {
     logger.spdlogger->debug(format, args...);
   }
 
   template<typename... Args>
-  static void Info(const char* format, const Args&... args)
+  static void info(const char* format, const Args&... args)
   {
     logger.spdlogger->info(format, args...);
   }
 
   template<typename... Args>
-  static void Warn(const char* format, const Args&... args)
+  static void warn(const char* format, const Args&... args)
   {
     logger.spdlogger->warn(format, args...);
   }
 
   template<typename... Args>
-  static void Error(const char* format, const Args&... args)
+  static void error(const char* format, const Args&... args)
   {
     logger.spdlogger->error(format, args...);
   }
 
   template<typename... Args>
-  static void Critical(const char* format, const Args&... args) 
+  static void critical(const char* format, const Args&... args) 
   {
     logger.spdlogger->critical(format, args...);
   }
 
 private:
-  static Log logger;
+  static log logger;
 
 private:
-  Log();
+  log();
 
   std::shared_ptr<spdlog::logger> spdlogger;
 };

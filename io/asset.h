@@ -1,13 +1,13 @@
 #ifndef NOCHE_ASSET_H
 #define NOCHE_ASSET_H
 
-#include <common/type_alias.h>
+#include <core/type_alias.h>
 
 #include <vector>
 
-namespace Noche
+namespace lam
 {
-class Asset
+class asset
 {
 public:
 
