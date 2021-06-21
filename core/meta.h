@@ -17,6 +17,24 @@ void for_each_tuple(const std::tuple<T...>& tuple, const F& function)
 {
   for_each_tuple(tuple, function, std::make_index_sequence<sizeof...(T)>());
 }
+
+template<typename From, typename To, typename = void>
+struct can_static_cast: std::false_type {};
+
+template<typename From, typename To>
+struct can_static_cast<From, To, std::void_t<decltype(static_cast<To>(std::declval<From>()))>>: std::true_type {};
+}
+
+namespace std
+{
+template <typename Base, typename Derived>
+struct is_virtual_base_of: std::conjunction<
+  std::is_base_of<Base, Derived>,
+  std::negation<lam::can_static_cast<Base*, Derived*>>
+>{};
+
+template<typename Base, typename Derived>
+constexpr bool is_virtual_base_of_v = is_virtual_base_of<Base, Derived>::value;
 }
 
 #endif //NOCHE_META_H
