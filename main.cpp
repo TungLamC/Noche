@@ -1,64 +1,38 @@
 #include <debug/log.h>
 #include <iostream>
 #include <tref/Tref.hpp>
-#include <core/meta.h>
 
-using namespace lam;
+#include <std/reflection.h>
+#include <tuple>
 
-//struct Fuck
-//{
-//private:
-//  using __base_t = typename tref::imp::get_parent<Fuck>::type;
-//private:
-//  using self_t = Fuck;
-//public:
-//  using __parent_t = self_t;
-//  friend constexpr auto _tref_class_info(Fuck**)
-//  {
-//    return tref::imp::ClassInfo{(Fuck*)0, "Fuck", sizeof(Fuck), tref::imp::Type<__base_t>{}, nullptr};
-//  };;
-//
-//  int i;
-//
-//  friend constexpr auto _tref_state(self_t**, tref::imp::FieldTag, 
-//    tref::imp::Id<std::tuple_element_t<0, decltype(_tref_state((self_t**)0, tref::imp::FieldTag{}, tref::imp::Id<>{}))>::value + 1> id) ->
-//  decltype(std::tuple(id, tref::imp::FieldInfo{id.value, "i", &self_t::i, nullptr}))
-//  {
-//    return std::tuple(id, tref::imp::FieldInfo{id.value, "i", &self_t::i, nullptr});
-//  }
-//};
-//
-//constexpr auto _tref_state(typename tref::imp::get_parent<Fuck>::type**, tref::imp::SubclassTag, tref::imp::Id<
-//  std::tuple_element_t<0,
-//                       decltype(_tref_state((typename tref::imp::get_parent<Fuck>::type**)0, tref::imp::SubclassTag{},
-//                                            tref::imp::Id<>{}))>::value + 1> id) -> decltype(std::tuple(id,
-//                                                                                                        tref::imp::Type<
-//                                                                                                          Fuck>{}))
-//{
-//  return std::tuple(id, tref::imp::Type<Fuck>{});
-//}
-//
-//struct Fuck2: Fuck
-//{
-//  TrefType(Fuck2);
-//};
-//constexpr auto _tref_state(typename tref::imp::get_parent<Fuck2>::type**, tref::imp::SubclassTag, tref::imp::Id<
-//  std::tuple_element_t<0,
-//                       decltype(_tref_state((typename tref::imp::get_parent<Fuck2>::type**)0, tref::imp::SubclassTag{},
-//                                            tref::imp::Id<>{}))>::value + 1> id) -> decltype(std::tuple(id,
-//                                                                                                        tref::imp::Type<
-//                                                                                                          Fuck2>{}))
-//{
-//return std::tuple(id, tref::imp::Type<Fuck2>{});
-//}
+using namespace std;
+using namespace Noche;
 
-template<typename F>
-void fuck(F&& f)
+namespace Noche
 {
+
+class O { };
+constexpr auto get_type_info(O*)
+{
+  return type_info("O", (O*)0, (base_list<dummy_base>*)0, sizeof(O));
+}
+class A {};
+constexpr auto get_type_info(A*)
+{
+  return type_info("A", (A*)0, (base_list<dummy_base>*)0, sizeof(A));
+}
+class B: O, A {};
+constexpr auto get_type_info(B*)
+{
+  return type_info("B", (B*)0, (base_list<O, A>*)0, sizeof(B));
+}
+
 }
 
 int main()
 {
-  int i = 2;
+  type_of<B>.each_bases([](auto base, int level) {
+    Log::Info("{} {}", typeid(base).name(), level);
+  });
   return 0;
 }
