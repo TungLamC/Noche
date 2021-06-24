@@ -10,11 +10,13 @@ using namespace Noche;
 
 namespace Noche
 {
-struct Top {};
-constexpr auto get_type_info(Top*)
-{
-  return type_info("Top", (Top*)0, (tuple<>*)0, sizeof(Top), nullptr);
-}
+struct Top {
+  friend constexpr auto get_type_info(Top*)
+  {
+    return type_info("Top", (Top*)0, (tuple<>*)0, sizeof(Top), nullptr);
+  } 
+};
+
 struct Object {};
 constexpr auto get_type_info(Object*)
 {

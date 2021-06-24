@@ -32,7 +32,7 @@ struct type_info
   meta_t      meta;
   size_t      size;
 
-  constexpr type_info(string_view name, Class *, tuple<Bases...> *, size_t size, Meta meta)
+  constexpr type_info(string_view name, Class*, tuple<Bases...>*, size_t size, Meta meta)
     : name(name), size(size), meta(meta)
   {
   }
