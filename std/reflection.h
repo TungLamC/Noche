@@ -9,10 +9,6 @@ namespace Noche
 {
 using namespace std;
 
-struct dummy
-{
-};
-
 template<typename Class>
 constexpr void get_type_info(Class *);
 
