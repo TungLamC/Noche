@@ -11,6 +11,8 @@ using namespace tref;
 template<typename T>
 static constexpr auto type_of = class_info<T>();
 
+#define REFLECT_ROOT_TYPE(CLASS) TrefType(CLASS)
+
 #define REFLECT_TYPE(CLASS) \
   TrefType(CLASS)           \
   friend TrefSubType(CLASS)
