@@ -396,6 +396,15 @@ struct ClassInfo {
     });
   }
 
+  template <typename F>
+  constexpr bool each_derived(F&& f, int level = 0) const {
+    return each_state<T, SubclassTag>([&](auto info) {
+      using S = typename decltype(info)::type;
+      return f(class_info<S>(), level) &&
+             class_info<S>().each_subclass(f, level + 1);
+    });
+  }
+
   // Iterate through the member types.
   // @param F: [](MemberInfo info) -> bool, return false to stop the
   // iterating.
