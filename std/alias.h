@@ -4,7 +4,15 @@
 namespace Noche
 {
 #define interface struct
-#define implements public
+#define inherit public
+#define implement public
+
+#define NOCOPYABLE(CLASS)                                         \
+private:                                                          \
+  CLASS(const CLASS&) = delete;                                   \
+  CLASS(CLASS&&) = delete;                                        \
+  const CLASS& operator=(const CLASS&) = delete;                  \
+  const CLASS& operator=(CLASS&&) = delete;
 
 using byte = unsigned char;
 using int8_t = std::int8_t;

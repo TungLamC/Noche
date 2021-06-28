@@ -1,6 +1,7 @@
 #ifndef NOCHE_REFLECTION_H
 #define NOCHE_REFLECTION_H
 
+#include <std/alias.h>
 #include <tref/Tref.hpp>
 
 namespace Noche
@@ -8,14 +9,16 @@ namespace Noche
 using namespace std;
 using namespace tref;
 
-template<typename T>
-static constexpr auto type_of = class_info<T>();
+#define type_of(type) class_info<type>()
 
-#define REFLECT_ROOT_TYPE(CLASS) TrefType(CLASS)
+#define REFLECT_ROOT_TYPE(CLASS) \
+  TrefType(CLASS)                \
+  NOCOPYABLE(CLASS)
 
 #define REFLECT_TYPE(CLASS) \
   TrefType(CLASS)           \
-  friend TrefSubType(CLASS)
+  friend TrefSubType(CLASS) \
+  NOCOPYABLE(CLASS)
 
 #define REFLECT_FIELD(FIELD) TrefField(FIELD)
 }

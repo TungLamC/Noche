@@ -23,9 +23,14 @@ add_subdirectory(3rdparty/sol2)
 # yaml-cpp
 include_directories(3rdparty/yaml-cpp/include)
 add_subdirectory(3rdparty/yaml-cpp)
+# boehm
+include_directories(3rdparty/boehm-collector/include)
+add_subdirectory(3rdparty/boehm-collector)
 
 add_executable(noche main.cpp ${debug} ${entry})
 target_link_libraries(noche spdlog)
 target_link_libraries(noche lua54)
 target_link_libraries(noche sol2)
 target_link_libraries(noche yaml-cpp)
+SET_TARGET_PROPERTIES(noche PROPERTIES COMPILE_DEFINITIONS GC_NOT_DLL)
+target_link_libraries(noche gc-lib)
