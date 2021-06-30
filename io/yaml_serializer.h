@@ -16,8 +16,8 @@ public:
   {
     static_assert(is_reflected_v<T>, "Serialize need reflected!");
     YamlNode node;
-    type_of<T>.each_field([&](auto field, int level) {
-      if constexpr (is_reflected_v<decltype(field)::member_t>)
+    type_of(T).each_field([&](auto field, int level) {
+      if constexpr (is_reflected_v<typename decltype(field)::member_t>)
         node[string(field.name).c_str()] = Serialize(object.*field.value);
       else
         node[string(field.name).c_str()] = object.*field.value;
@@ -31,8 +31,8 @@ public:
   {
     static_assert(is_reflected_v<T>, "Serialize need reflected!");
     T result{};
-    type_of<T>.each_field([&](auto field, int level) {
-      if constexpr (is_reflected_v<decltype(field)::member_t>)
+    type_of(T).each_field([&](auto field, int level) {
+      if constexpr (is_reflected_v<typename decltype(field)::member_t>)
         result.*field.value = Deserialize<decltype(field)::member_t>(root[string(field.name).c_str()]);
       else
         result.*field.value = root[string(field.name).c_str()].as<decltype(field)::member_t>();

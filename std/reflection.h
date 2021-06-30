@@ -11,14 +11,11 @@ using namespace tref;
 
 #define type_of(type) class_info<type>()
 
-#define REFLECT_ROOT_TYPE(CLASS) \
-  TrefType(CLASS)                \
-  NOCOPYABLE(CLASS)
+#define REFLECT_ROOT_TYPE(CLASS) TrefType(CLASS)
 
 #define REFLECT_TYPE(CLASS) \
   TrefType(CLASS)           \
-  friend TrefSubType(CLASS) \
-  NOCOPYABLE(CLASS)
+  friend TrefSubType(CLASS)
 
 #define REFLECT_FIELD(FIELD) TrefField(FIELD)
 }
