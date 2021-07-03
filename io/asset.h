@@ -1,8 +1,8 @@
 #ifndef NOCHE_ASSET_H
 #define NOCHE_ASSET_H
 
-#include <std/alias.h>
-#include <std/reflection.h>
+#include <common/alias.h>
+#include <common/reflection.h>
 #include <object/object.h>
 
 namespace Noche

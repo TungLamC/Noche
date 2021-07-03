@@ -53,6 +53,9 @@ private:
 
   std::shared_ptr<spdlog::logger> spdlogger;
 };
+
+#define ASSERT(condition, ...) \
+    { if (!(condition)) { Noche::Log::Info("Assertion failed: {0}", __VA_ARGS__); __debugbreak(); } }
 }
 
 #endif //NOCHE_LOG_H

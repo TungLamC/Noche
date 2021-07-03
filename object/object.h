@@ -1,9 +1,8 @@
 #ifndef NOCHE_OBJECT_H
 #define NOCHE_OBJECT_H
 
-#include <std/alias.h>
+#include <common/alias.h>
 #include <io/yaml_serializer.h>
-#include <gc_cpp.h>
 
 namespace Noche
 {
