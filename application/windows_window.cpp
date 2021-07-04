@@ -6,6 +6,9 @@
 #include <event/window_event.h>
 #include <application/windows_window.h>
 #include <imgui.h>
+#include <imgui_impl_opengl3.h>
+#include <imgui_impl_glfw.h>
+#include "application.h"
 
 namespace Noche
 {
@@ -28,10 +31,31 @@ WindowsWindow::~WindowsWindow()
 
 void WindowsWindow::OnUpdate()
 {
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui_ImplGlfw_NewFrame();
+    ImGui::NewFrame();
+    static bool show = true;
+    ImGui::ShowDemoWindow(&show);
+    ImGuiIO& io = ImGui::GetIO();
+//    io.DisplaySize = ImVec2(1280, 720);
+//    real32 time = (real32)glfwGetTime();
+//    io.DeltaTime = time > 0.0 ? (time - this->time) : (1.0f / 60.0f);
+//    this->time = time;
+    ImGui::Render();
+    int display_w, display_h;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
-//    glViewport(0, 0,1280, 720);
+    glViewport(0, 0, 1280, 720);
     glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
     glClear(GL_COLOR_BUFFER_BIT);
+    glfwGetFramebufferSize(((WindowsWindow&)Application::instance->GetWindow()).window, &display_w, &display_h);
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+    if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+    {
+        GLFWwindow* backup_current_context = glfwGetCurrentContext();
+        ImGui::UpdatePlatformWindows();
+        ImGui::RenderPlatformWindowsDefault();
+        glfwMakeContextCurrent(backup_current_context);
+    }
     glfwPollEvents();
     glfwSwapBuffers(window);
 }
