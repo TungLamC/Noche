@@ -20,9 +20,9 @@ void Application::Run()
 {
     while (running)
     {
+        window->OnUpdate();
         for (auto layer: layer_stack)
             layer->OnUpdate();
-        window->OnUpdate();
     }
 }
 void Application::OnEvent(Event& event)

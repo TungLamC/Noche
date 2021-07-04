@@ -5,6 +5,7 @@
 #include <event/mouse_event.h>
 #include <event/window_event.h>
 #include <application/windows_window.h>
+#include <imgui.h>
 
 namespace Noche
 {
@@ -27,7 +28,9 @@ WindowsWindow::~WindowsWindow()
 
 void WindowsWindow::OnUpdate()
 {
-    glClearColor(1.0, 0.0f, 1.0f, 1.0f);
+    ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+//    glViewport(0, 0,1280, 720);
+    glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
     glClear(GL_COLOR_BUFFER_BIT);
     glfwPollEvents();
     glfwSwapBuffers(window);
@@ -41,18 +44,19 @@ void WindowsWindow::Initialize(const WindowProps& props)
     Log::Info("Creating window {0} {1} {2}", props.title, props.width, props.height);
     if (!glfw_initialized)
     {
+        glfwSetErrorCallback([](int error, const char* description) {
+            Log::Info("GLFW ERROR: {0}", description);
+        });
         int success = glfwInit();
         ASSERT(success, "Could not initialize GLFW!");
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
-//        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);  // 3.2+ only
         window = glfwCreateWindow((int)props.width, (int)props.height, props.title.c_str(), nullptr, nullptr);
         glfwMakeContextCurrent(window);
+        glfwSwapInterval(1);
         glfwSetWindowUserPointer(window, &data);
+        gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
         ASSERT(gladLoadGLLoader((GLADloadproc)glfwGetProcAddress), "Counld not initialize glad!");
-        glfwSetErrorCallback([](int error, const char* description) {
-            Log::Info("GLFW ERROR: {0}", description);
-        });
         glfw_initialized = true;
 
         glfwSetWindowSizeCallback(window, [](GLFWwindow* window, int width, int height) {
