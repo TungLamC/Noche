@@ -1,6 +1,6 @@
 #include <debug/log.h>
 
-namespace Noche
+namespace bomb
 {
 Log::Log() 
 {

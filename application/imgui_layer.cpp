@@ -1,5 +1,4 @@
 #include <application/imgui_layer.h>
-#include <application/application.h>
 #include <application/windows_window.h>
 #include <GLFW/glfw3.h>
 

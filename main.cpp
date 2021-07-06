@@ -2,14 +2,14 @@
 #include <application//application.h>
 #include <application/imgui_layer.h>
 #include <event/window_event.h>
+#include <common/property.h>
+#include <common/static_constructor_.h>
+
 
 using namespace Noche;
 
 int main()
 {
-    Application app;
-    app.PushOverlay(new ImguiLayer());
-    app.Run();
     return 0;
 }
 

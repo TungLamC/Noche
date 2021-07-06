@@ -1,14 +1,14 @@
 #ifndef NOCHE_ALIAS_H
 #define NOCHE_ALIAS_H
 
-#include <common/reflection.h>
 #include <functional>
+#include <common/reflection.h>
 
-namespace Noche
+namespace bomb
 {
 #define interface struct
 #define inherit public
-#define implements public
+#define implement public
 
 #define NOCOPYABLE(CLASS)                                           \
 private:                                                            \
@@ -35,6 +35,7 @@ using sint64_t = std::int64_t;
 using uint64_t = std::uint64_t;
 using real32 = float;
 using real64 = double;
+
 }
 
 #endif //NOCHE_ALIAS_H

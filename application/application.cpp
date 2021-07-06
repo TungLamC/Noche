@@ -7,45 +7,45 @@
 
 namespace Noche
 {
-Application* Application::instance = nullptr;
-
-Application::Application(): layer_stack()
-{
-    window = unique_ptr<Window>{Window::Create()};
-    window->SetEventCallBack([&](Event& event) { this->OnEvent(event); });
-    instance = this;
-}
-
-void Application::Run()
-{
-    while (running)
-    {
-        for (auto layer: layer_stack)
-            layer->OnUpdate();
-        window->OnUpdate();
-    }
-}
-void Application::OnEvent(Event& event)
-{
-    Log::Info("{0}", event);
-    EventDispatcher dispatcher(event);
-    dispatcher.Dispatch<WindowCloseEvent>([&](Event& event) {
-        running = false;
-        return true;
-    });
-    for (auto layer: layer_stack)
-    {
-        if (event.handled) break;
-        layer->OnEvent(event);
-    }
-}
-void Application::PushLayer(Layer* layer)
-{
-    layer_stack.PushLayer(layer);
-}
-void Application::PushOverlay(Layer* layer)
-{
-    layer_stack.PushOverlay(layer);
-}
+//Application* Application::instance = nullptr;
+//
+//Application::Application(): layer_stack()
+//{
+//    window = unique_ptr<Window>{Window::Create()};
+//    window->SetEventCallBack([&](Event& event) { this->OnEvent(event); });
+//    instance = this;
+//}
+//
+//void Application::Run()
+//{
+//    while (running)
+//    {
+//        for (auto layer: layer_stack)
+//            layer->OnUpdate();
+//        window->OnUpdate();
+//    }
+//}
+//void Application::OnEvent(Event& event)
+//{
+//    Log::Info("{0}", event);
+//    EventDispatcher dispatcher(event);
+//    dispatcher.Dispatch<WindowCloseEvent>([&](Event& event) {
+//        running = false;
+//        return true;
+//    });
+//    for (auto layer: layer_stack)
+//    {
+//        if (event.handled) break;
+//        layer->OnEvent(event);
+//    }
+//}
+//void Application::PushLayer(Layer* layer)
+//{
+//    layer_stack.PushLayer(layer);
+//}
+//void Application::PushOverlay(Layer* layer)
+//{
+//    layer_stack.PushOverlay(layer);
+//}
 }
 

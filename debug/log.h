@@ -4,43 +4,43 @@
 #include <spdlog/spdlog.h>
 #include <spdlog/fmt/ostr.h>
 
-namespace Noche
+namespace bomb
 {
 class Log
 {
 public:
   template<typename... Args>
-  static void Trace(const char* format, const Args&... args)
+  static void trace(const char* format, const Args&... args)
   {
     logger.spdlogger->trace(format, args...);
   }
 
   template<typename... Args>
-  static void Debug(const char* format, const Args&... args)
+  static void debug(const char* format, const Args&... args)
   {
     logger.spdlogger->debug(format, args...);
   }
 
   template<typename... Args>
-  static void Info(const char* format, const Args&... args)
+  static void info(const char* format, const Args&... args)
   {
     logger.spdlogger->info(format, args...);
   }
 
   template<typename... Args>
-  static void Warn(const char* format, const Args&... args)
+  static void warn(const char* format, const Args&... args)
   {
     logger.spdlogger->warn(format, args...);
   }
 
   template<typename... Args>
-  static void Error(const char* format, const Args&... args)
+  static void error(const char* format, const Args&... args)
   {
     logger.spdlogger->error(format, args...);
   }
 
   template<typename... Args>
-  static void Critical(const char* format, const Args&... args) 
+  static void critical(const char* format, const Args&... args) 
   {
     logger.spdlogger->critical(format, args...);
   }
@@ -54,8 +54,10 @@ private:
   std::shared_ptr<spdlog::logger> spdlogger;
 };
 
+using log = Log;
+
 #define ASSERT(condition, ...) \
-    { if (!(condition)) { Noche::Log::Info("Assertion failed: {0}", __VA_ARGS__); __debugbreak(); } }
+    { if (!(condition)) { Noche::Log::Info("Assertion failed: {0} at {1} {2}", __VA_ARGS__, __FILE__, __LINE__); __debugbreak(); } }
 }
 
 #endif //NOCHE_LOG_H
